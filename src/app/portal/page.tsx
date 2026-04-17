@@ -1,67 +1,108 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
-export default function HomePage() {
+type Expediente = {
+  cliente_id: string
+  caso_id: string
+  nombre: string
+  apellidos: string
+  expediente_titulo: string
+  expediente_estado: string
+  expediente_descripcion: string | null
+  expediente_ultima_modificacion: string
+}
+
+export default function PortalPage() {
   const router = useRouter()
-
-  const [codigo, setCodigo] = useState('')
-  const [nombre, setNombre] = useState('')
-  const [apellidos, setApellidos] = useState('')
+  const [expediente, setExpediente] = useState<Expediente | null>(null)
   const [mensaje, setMensaje] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [subiendo, setSubiendo] = useState(false)
 
-  async function entrarPortal(e: React.FormEvent) {
-    e.preventDefault()
-    setMensaje('')
+  useEffect(() => {
+    const raw = localStorage.getItem('nira_portal_cliente')
 
-    if (!codigo.trim() || !nombre.trim() || !apellidos.trim()) {
-      setMensaje('Completa código, nombre y apellidos.')
+    if (!raw) {
+      router.push('/')
       return
     }
 
+    const sesion = JSON.parse(raw)
+    cargarExpediente(sesion.caso_id)
+  }, [router])
+
+  const cargarExpediente = async (casoId: string) => {
+    const { data, error } = await supabase
+      .from('vw_portal_cliente_resumen')
+      .select('*')
+      .eq('caso_id', casoId)
+      .single()
+
+    if (error || !data) {
+      console.error(error)
+      setMensaje('No se pudo cargar el expediente.')
+      return
+    }
+
+    setExpediente(data)
+  }
+
+  const subirArchivo = async (file: File | null) => {
+    if (!file || !expediente) return
+
     try {
-      setLoading(true)
+      setSubiendo(true)
+      setMensaje('')
 
-      const { data, error } = await supabase.rpc('portal_validar_acceso', {
-        p_codigo: codigo.trim(),
-        p_nombre: nombre.trim(),
-        p_apellidos: apellidos.trim(),
-      })
+      const nombreSeguro = `${Date.now()}_${file.name}`
+      const ruta = `${expediente.caso_id}/${nombreSeguro}`
 
-      if (error) {
-        console.error(error)
-        setMensaje('No se pudo comprobar el acceso.')
+      const { error: uploadError } = await supabase.storage
+        .from('archivos-casos')
+        .upload(ruta, file)
+
+      if (uploadError) {
+        console.error(uploadError)
+        setMensaje('No se pudo subir el archivo.')
         return
       }
 
-      const acceso = Array.isArray(data) ? data[0] : data
+      const extension = file.name.includes('.')
+        ? '.' + file.name.split('.').pop()
+        : null
 
-      if (!acceso) {
-        setMensaje('Código o datos incorrectos.')
-        return
-      }
-
-      localStorage.setItem(
-        'nira_portal_cliente',
-        JSON.stringify({
-          portal_id: acceso.portal_id,
-          cliente_id: acceso.cliente_id,
-          caso_id: acceso.caso_id,
+      const { error: insertError } = await supabase
+        .from('archivos')
+        .insert({
+          caso_id: expediente.caso_id,
+          nombre: file.name,
+          tipo_archivo: extension,
+          storage_path: ruta,
+          is_deleted: false,
+          origen: 'portal_cliente',
+          subido_por_cliente_id: expediente.cliente_id,
         })
-      )
 
-      router.push('/portal')
+      if (insertError) {
+        console.error(insertError)
+        setMensaje('El archivo subió, pero no se pudo registrar en la base de datos.')
+        return
+      }
+
+      setMensaje('Archivo subido correctamente.')
     } catch (e) {
       console.error(e)
-      setMensaje('Se produjo un error al entrar.')
+      setMensaje('Ha ocurrido un error al subir el archivo.')
     } finally {
-      setLoading(false)
+      setSubiendo(false)
     }
+  }
+
+  const cerrarSesion = () => {
+    localStorage.removeItem('nira_portal_cliente')
+    router.push('/')
   }
 
   return (
@@ -70,392 +111,147 @@ export default function HomePage() {
         minHeight: '100vh',
         background: '#050505',
         color: 'white',
+        padding: '32px 20px',
       }}
     >
-      <section
+      <div
         style={{
-          maxWidth: 1200,
+          maxWidth: '900px',
           margin: '0 auto',
-          padding: '32px 24px 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
         }}
       >
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 16,
-            flexWrap: 'wrap',
-            marginBottom: 28,
+            background: '#0B0B0B',
+            border: '1px solid #171717',
+            borderRadius: '24px',
+            padding: '24px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Image
-              src="/images/nira_logo.png"
-              alt="NIRA Legal Group"
-              width={60}
-              height={60}
-              style={{ objectFit: 'contain' }}
-            />
-            <div>
-              <div
-                style={{
-                  fontFamily: 'TimesCustom, serif',
-                  fontSize: 28,
-                  lineHeight: 1.1,
-                }}
-              >
-                NIRA LEGAL GROUP
-              </div>
-              <div style={{ color: '#B0B0B0', fontSize: 14 }}>
-                Asesoría y defensa jurídica
-              </div>
-            </div>
-          </div>
+          <h1
+            style={{
+              marginTop: 0,
+              fontFamily: 'TimesCustom, serif',
+              fontSize: '42px',
+            }}
+          >
+            Tu expediente
+          </h1>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a
-              href="https://wa.me/34684741648"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                background: '#111',
-                color: 'white',
-                border: '1px solid #262626',
-                borderRadius: 14,
-                padding: '12px 16px',
-              }}
-            >
-              WhatsApp
-            </a>
-
-            <a
-              href="https://www.instagram.com/niralegalgroup"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                background: '#111',
-                color: 'white',
-                border: '1px solid #262626',
-                borderRadius: 14,
-                padding: '12px 16px',
-              }}
-            >
-              Instagram
-            </a>
-          </div>
+          {expediente ? (
+            <>
+              <p><strong>Título:</strong> {expediente.expediente_titulo}</p>
+              <p><strong>Estado:</strong> {expediente.expediente_estado}</p>
+              <p><strong>Descripción:</strong> {expediente.expediente_descripcion || 'Sin descripción.'}</p>
+              <p>
+                <strong>Última modificación:</strong>{' '}
+                {new Date(expediente.expediente_ultima_modificacion).toLocaleString('es-ES')}
+              </p>
+            </>
+          ) : (
+            <p>Cargando expediente...</p>
+          )}
         </div>
 
         <div
           style={{
             background: '#0B0B0B',
             border: '1px solid #171717',
-            borderRadius: 28,
-            padding: '32px 24px',
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 0.8fr',
-            gap: 24,
+            borderRadius: '24px',
+            padding: '24px',
           }}
         >
-          <div>
-            <h1
-              style={{
-                margin: 0,
-                fontFamily: 'TimesCustom, serif',
-                fontSize: 54,
-                lineHeight: 1.05,
-              }}
-            >
-              Defensa jurídica clara, cercana y seria
-            </h1>
+          <h2
+            style={{
+              fontFamily: 'TimesCustom, serif',
+              fontSize: '30px',
+              marginTop: 0,
+            }}
+          >
+            Subir archivo
+          </h2>
 
-            <p
-              style={{
-                color: '#B0B0B0',
-                fontSize: 18,
-                lineHeight: 1.6,
-                marginTop: 18,
-                maxWidth: 700,
-              }}
-            >
-              En NIRA Legal Group ayudamos a ordenar el problema, explicar el
-              camino y acompañarte durante todo el expediente.
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                gap: 12,
-                flexWrap: 'wrap',
-                marginTop: 20,
-              }}
-            >
-              <a
-                href="#portal"
-                style={{
-                  background: 'white',
-                  color: 'black',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                  fontWeight: 'bold',
-                }}
-              >
-                Acceso cliente
-              </a>
-
-              <a
-                href="#areas"
-                style={{
-                  background: '#111',
-                  color: 'white',
-                  border: '1px solid #262626',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                }}
-              >
-                Áreas que llevamos
-              </a>
-            </div>
-          </div>
+          <p style={{ color: '#B0B0B0' }}>
+            Puedes subir foto, vídeo, audio, PDF o DOCX.
+          </p>
 
           <div
             style={{
-              background: '#080808',
-              border: '1px solid #171717',
-              borderRadius: 24,
-              padding: 22,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              marginTop: '18px',
             }}
           >
-            <h2
+            <label
               style={{
-                marginTop: 0,
-                marginBottom: 10,
-                fontFamily: 'TimesCustom, serif',
-                fontSize: 34,
+                display: 'inline-block',
+                background: 'white',
+                color: 'black',
+                padding: '14px 18px',
+                borderRadius: '14px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                width: 'fit-content',
               }}
             >
-              Acceso cliente
-            </h2>
-
-            <p style={{ color: '#B0B0B0', marginTop: 0, lineHeight: 1.6 }}>
-              Entra con el código que te dio el despacho, junto con tu nombre y
-              apellidos.
-            </p>
-
-            <form
-              id="portal"
-              onSubmit={entrarPortal}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-                marginTop: 18,
-              }}
-            >
+              {subiendo ? 'Subiendo...' : 'Tomar foto o subir archivo'}
               <input
-                type="text"
-                placeholder="Código"
-                value={codigo}
-                onChange={(e) => setCodigo(e.target.value)}
-                style={inputStyle}
+                type="file"
+                accept="image/*,video/*,audio/*,.pdf,.docx"
+                capture="environment"
+                style={{ display: 'none' }}
+                onChange={(e) => subirArchivo(e.target.files?.[0] || null)}
               />
-
-              <input
-                type="text"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                style={inputStyle}
-              />
-
-              <input
-                type="text"
-                placeholder="Apellidos"
-                value={apellidos}
-                onChange={(e) => setApellidos(e.target.value)}
-                style={inputStyle}
-              />
-
-              <button
-                type="submit"
-                disabled={loading}
-                style={{
-                  background: 'white',
-                  color: 'black',
-                  border: 'none',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                  fontWeight: 'bold',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.7 : 1,
-                  marginTop: 4,
-                }}
-              >
-                {loading ? 'Comprobando...' : 'Entrar al portal'}
-              </button>
-            </form>
-
-            {mensaje ? (
-              <div
-                style={{
-                  marginTop: 14,
-                  color: '#D6C29A',
-                  lineHeight: 1.5,
-                }}
-              >
-                {mensaje}
-              </div>
-            ) : null}
+            </label>
           </div>
         </div>
-      </section>
-
-      <section
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '10px 24px 50px',
-        }}
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 16,
-          }}
-        >
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Quiénes somos</h3>
-            <p style={cardTextStyle}>
-              Un despacho que busca explicar bien, actuar con estrategia y no
-              vender humo.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Cómo trabajamos</h3>
-            <p style={cardTextStyle}>
-              Ordenamos el expediente, pedimos lo necesario y mantenemos un
-              seguimiento claro.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Portal cliente</h3>
-            <p style={cardTextStyle}>
-              Consulta tu expediente y sube documentos desde cualquier
-              dispositivo.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="areas"
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '0 24px 60px',
-        }}
-      >
-        <h3
-          style={{
-            fontFamily: 'TimesCustom, serif',
-            fontSize: 48,
-            marginTop: 0,
-            marginBottom: 22,
-          }}
-        >
-          Áreas que llevamos
-        </h3>
 
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 16,
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '12px',
+            flexWrap: 'wrap',
           }}
         >
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Laboral</h4>
-            <p style={cardTextStyle}>
-              Despidos, reclamaciones y defensa del trabajador.
-            </p>
-          </div>
+          <a
+            href="https://wa.me/34684741648"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              background: '#111',
+              color: 'white',
+              border: '1px solid #262626',
+              borderRadius: '14px',
+              padding: '14px 18px',
+            }}
+          >
+            Contactar por WhatsApp
+          </a>
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Extranjería</h4>
-            <p style={cardTextStyle}>
-              Regularización, solicitudes y expedientes.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Civil</h4>
-            <p style={cardTextStyle}>
-              Reclamaciones, conflictos y acompañamiento jurídico.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Consumo</h4>
-            <p style={cardTextStyle}>
-              Defensa frente a abusos y reclamaciones desproporcionadas.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Orientación jurídica</h4>
-            <p style={cardTextStyle}>
-              Guía clara cuando no sabes por dónde empezar.
-            </p>
-          </div>
-
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Acompañamiento</h4>
-            <p style={cardTextStyle}>
-              Explicamos, escuchamos y ordenamos el camino.
-            </p>
-          </div>
+          <button
+            onClick={cerrarSesion}
+            style={{
+              background: '#111',
+              color: 'white',
+              border: '1px solid #262626',
+              borderRadius: '14px',
+              padding: '14px 18px',
+              cursor: 'pointer',
+            }}
+          >
+            Cerrar sesión
+          </button>
         </div>
-      </section>
+
+        {mensaje ? (
+          <div style={{ color: '#D6C29A' }}>{mensaje}</div>
+        ) : null}
+      </div>
     </main>
   )
-}
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  background: '#050505',
-  color: 'white',
-  border: '1px solid #262626',
-  borderRadius: 14,
-  padding: '14px 16px',
-  outline: 'none',
-}
-
-const cardStyle: React.CSSProperties = {
-  background: '#0B0B0B',
-  border: '1px solid #171717',
-  borderRadius: 24,
-  padding: 22,
-}
-
-const cardTitleStyle: React.CSSProperties = {
-  marginTop: 0,
-  marginBottom: 10,
-  fontFamily: 'TimesCustom, serif',
-  fontSize: 28,
-}
-
-const smallTitleStyle: React.CSSProperties = {
-  marginTop: 0,
-  marginBottom: 10,
-  fontFamily: 'TimesCustom, serif',
-  fontSize: 24,
-}
-
-const cardTextStyle: React.CSSProperties = {
-  margin: 0,
-  color: '#B0B0B0',
-  lineHeight: 1.6,
 }
