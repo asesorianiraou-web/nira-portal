@@ -9,6 +9,8 @@ type Expediente = {
   caso_id: string
   nombre: string
   apellidos: string
+  numero_expediente: string | null
+  codigo_caso: string | null
   expediente_titulo: string
   expediente_estado: string
   expediente_descripcion: string | null
@@ -20,6 +22,7 @@ export default function PortalPage() {
   const [expediente, setExpediente] = useState<Expediente | null>(null)
   const [mensaje, setMensaje] = useState('')
   const [subiendo, setSubiendo] = useState(false)
+  const [copiado, setCopiado] = useState('')
 
   useEffect(() => {
     const raw = localStorage.getItem('nira_portal_cliente')
@@ -55,6 +58,7 @@ export default function PortalPage() {
     try {
       setSubiendo(true)
       setMensaje('')
+      setCopiado('')
 
       const nombreSeguro = `${Date.now()}_${file.name}`
       const ruta = `${expediente.caso_id}/${nombreSeguro}`
@@ -100,10 +104,25 @@ export default function PortalPage() {
     }
   }
 
+  const copiarTexto = async (texto: string, etiqueta: string) => {
+    try {
+      await navigator.clipboard.writeText(texto)
+      setCopiado(`${etiqueta} copiado.`)
+      setTimeout(() => setCopiado(''), 2500)
+    } catch (e) {
+      console.error(e)
+      setCopiado('No se pudo copiar.')
+      setTimeout(() => setCopiado(''), 2500)
+    }
+  }
+
   const cerrarSesion = () => {
     localStorage.removeItem('nira_portal_cliente')
     router.push('/')
   }
+
+  const numeroExpediente = expediente?.numero_expediente?.trim() || 'Pendiente de asignar'
+  const codigoCaso = expediente?.codigo_caso?.trim() || 'Pendiente de asignar'
 
   return (
     <>
@@ -113,22 +132,55 @@ export default function PortalPage() {
             <h1 className="title">Tu expediente</h1>
 
             {expediente ? (
-              <div className="expedienteInfo">
-                <p>
-                  <strong>Título:</strong> {expediente.expediente_titulo}
+              <>
+                <div className="badgesGrid">
+                  <div className="badgeCard">
+                    <div className="badgeLabel">Nº de expediente</div>
+                    <div className="badgeValue">{numeroExpediente}</div>
+                    <button
+                      className="miniButton"
+                      onClick={() => copiarTexto(numeroExpediente, 'Número de expediente')}
+                      type="button"
+                    >
+                      Copiar
+                    </button>
+                  </div>
+
+                  <div className="badgeCard">
+                    <div className="badgeLabel">Código del caso</div>
+                    <div className="badgeValue">{codigoCaso}</div>
+                    <button
+                      className="miniButton"
+                      onClick={() => copiarTexto(codigoCaso, 'Código del caso')}
+                      type="button"
+                    >
+                      Copiar
+                    </button>
+                  </div>
+                </div>
+
+                <p className="noticeText">
+                  A veces tardamos un poco en asignar el número de expediente o el código del caso.
+                  Si todavía no aparecen, no significa que tu caso no esté en marcha.
                 </p>
-                <p>
-                  <strong>Estado:</strong> {expediente.expediente_estado}
-                </p>
-                <p>
-                  <strong>Descripción:</strong>{' '}
-                  {expediente.expediente_descripcion || 'Sin descripción.'}
-                </p>
-                <p>
-                  <strong>Última modificación:</strong>{' '}
-                  {new Date(expediente.expediente_ultima_modificacion).toLocaleString('es-ES')}
-                </p>
-              </div>
+
+                <div className="expedienteInfo">
+                  <p>
+                    <strong>Título:</strong> {expediente.expediente_titulo}
+                  </p>
+                  <p>
+                    <strong>Estado:</strong> {expediente.expediente_estado}
+                  </p>
+                  <p>
+                    <strong>Descripción:</strong>{' '}
+                    {expediente.expediente_descripcion || 'Sin descripción.'}
+                  </p>
+                  <p>
+                    <strong>Última modificación:</strong>{' '}
+                    {new Date(expediente.expediente_ultima_modificacion).toLocaleString('es-ES')}
+                  </p>
+                </div>
+              </>
             ) : (
               <p className="muted">Cargando expediente...</p>
             )}
@@ -171,6 +223,7 @@ export default function PortalPage() {
           </section>
 
           {mensaje ? <div className="message">{mensaje}</div> : null}
+          {copiado ? <div className="message">{copiado}</div> : null}
         </div>
       </main>
 
@@ -210,6 +263,51 @@ export default function PortalPage() {
           margin-bottom: 12px;
           font-family: 'Times New Roman', serif;
           font-size: clamp(26px, 4vw, 34px);
+        }
+
+        .badgesGrid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          margin-bottom: 14px;
+        }
+
+        .badgeCard {
+          background: #080808;
+          border: 1px solid #171717;
+          border-radius: 18px;
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .badgeLabel {
+          color: #8e8e93;
+          font-size: 12px;
+        }
+
+        .badgeValue {
+          font-size: 20px;
+          font-weight: 700;
+          word-break: break-word;
+        }
+
+        .miniButton {
+          align-self: flex-start;
+          background: #111;
+          color: white;
+          border: 1px solid #262626;
+          border-radius: 12px;
+          padding: 10px 14px;
+          cursor: pointer;
+          font: inherit;
+        }
+
+        .noticeText {
+          color: #b0b0b0;
+          line-height: 1.6;
+          margin: 0 0 18px 0;
         }
 
         .expedienteInfo {
@@ -294,6 +392,10 @@ export default function PortalPage() {
             border-radius: 20px;
           }
 
+          .badgesGrid {
+            grid-template-columns: 1fr;
+          }
+
           .actions {
             flex-direction: column;
           }
@@ -304,6 +406,11 @@ export default function PortalPage() {
 
           .primaryButton {
             width: 100%;
+          }
+
+          .miniButton {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>
