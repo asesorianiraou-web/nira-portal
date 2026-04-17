@@ -53,30 +53,12 @@ export default function HomePage() {
 
   useEffect(() => {
     const title =
-      'NIRA LEGAL GROUP | Asesoría jurídica gratuita, extranjería, laboral, civil y portal cliente'
+      'NIRA LEGAL GROUP | Extranjería, laboral, civil, consumo, renta y portal cliente'
     const description =
-      'NIRA LEGAL GROUP es un despacho jurídico con asesoría jurídica gratuita inicial, extranjería, laboral, civil, consumo, renta y portal cliente para enviar documentación y seguir tu caso.'
+      'NIRA LEGAL GROUP es un despacho jurídico con servicios en extranjería, laboral, civil, consumo, renta y portal cliente para enviar documentación y seguir tu caso.'
 
     document.title = title
     upsertMetaByName('description', description)
-    upsertMetaByName(
-      'keywords',
-      [
-        'nira legal group',
-        'niralegalgroup',
-        'nira abogados',
-        'asesoría jurídica gratuita',
-        'asesoría gratuita',
-        'asesoramiento jurídico gratuito',
-        'abogado extranjería',
-        'abogado laboral',
-        'abogado civil',
-        'abogado consumo',
-        'declaración de la renta',
-        'consulta jurídica online',
-        'portal cliente',
-      ].join(', ')
-    )
     upsertMetaByName('robots', 'index,follow,max-image-preview:large')
     upsertMetaByProperty('og:title', title)
     upsertMetaByProperty('og:description', description)
@@ -117,16 +99,19 @@ export default function HomePage() {
       availableLanguage: ['es', 'en'],
       sameAs: [INSTAGRAM_URL],
       serviceType: [
-        'Asesoría jurídica gratuita inicial',
         'Extranjería',
+        'Arraigo social',
+        'Arraigo sociolaboral',
+        'Nacionalidad española',
+        'Regularización',
         'Derecho laboral',
         'Derecho civil',
         'Consumo',
-        'Consulta jurídica online',
         'Declaración de la renta',
+        'Consulta jurídica online',
       ],
       description:
-        'Despacho jurídico con orientación clara, cercana y seria. Servicios en extranjería, laboral, civil, consumo, renta y portal cliente para seguimiento de expedientes.',
+        'Despacho jurídico con orientación clara y seria. Servicios en extranjería, arraigo, nacionalidad, regularización, laboral, civil, consumo, renta y portal cliente.',
     }),
     []
   )
@@ -141,15 +126,15 @@ export default function HomePage() {
           name: '¿Qué es NIRA LEGAL GROUP?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'NIRA LEGAL GROUP es un despacho jurídico que trabaja con un enfoque claro, cercano y práctico en materias como extranjería, laboral, civil, consumo y orientación jurídica.',
+            text: 'NIRA LEGAL GROUP es un despacho jurídico con enfoque práctico y cercano, especialmente en extranjería, laboral, civil, consumo, renta y orientación jurídica.',
           },
         },
         {
           '@type': 'Question',
-          name: '¿Ofrecéis asesoría jurídica gratuita?',
+          name: '¿Lleváis temas de extranjería?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Sí, ofrecemos una primera orientación informativa para entender el problema, ordenar la situación y ver por dónde empezar.',
+            text: 'Sí. Entre otros, trabajamos temas de arraigo, nacionalidad, regularización, residencia y expedientes de extranjería.',
           },
         },
         {
@@ -157,15 +142,15 @@ export default function HomePage() {
           name: '¿Puedo enviar documentación por internet?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Sí. El cliente puede entrar al portal con su código, nombre y apellidos para consultar su caso y enviar documentación de forma rápida.',
+            text: 'Sí. Si ya eres cliente y tienes acceso, puedes entrar al portal y subir documentación de forma rápida.',
           },
         },
         {
           '@type': 'Question',
-          name: '¿Lleváis extranjería y laboral?',
+          name: '¿También trabajáis laboral, civil o consumo?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Sí. Entre las áreas principales están extranjería, laboral, civil, consumo y otras consultas jurídicas relacionadas.',
+            text: 'Sí. Además de extranjería, también trabajamos asuntos laborales, civiles, de consumo y otras consultas jurídicas.',
           },
         },
       ],
@@ -252,9 +237,7 @@ export default function HomePage() {
 
               <div className="brandCopy">
                 <div className="brandTitle">{BRAND_NAME}</div>
-                <div className="brandSub">
-                  Asesoría y defensa jurídica
-                </div>
+                <div className="brandSub">Asesoría y defensa jurídica</div>
               </div>
             </div>
 
@@ -270,21 +253,17 @@ export default function HomePage() {
 
           <section className="hero">
             <div className="heroLeft">
-              <p className="eyebrow">DESPACHO JURÍDICO • ASESORÍA CLARA • PORTAL CLIENTE</p>
+              <p className="eyebrow">DESPACHO JURÍDICO • EXTRANJERÍA • LABORAL • PORTAL CLIENTE</p>
 
-              <h1 className="heroTitle">
-                Defensa jurídica clara, cercana y seria
-              </h1>
+              <h1 className="heroTitle">Defensa jurídica clara, cercana y seria</h1>
 
               <p className="heroText">
                 En <strong>{BRAND_NAME}</strong> ayudamos a ordenar el problema,
                 explicar el camino y acompañarte durante todo el expediente.
-                Si buscas <strong>asesoría jurídica gratuita</strong>,
-                <strong> asesoramiento jurídico gratuito</strong>,
-                <strong> abogado de extranjería</strong>,
-                <strong> abogado laboral</strong> o una
-                <strong> consulta jurídica online</strong>, aquí tienes una
-                puerta de entrada clara, directa y útil.
+                Trabajamos especialmente asuntos de <strong>extranjería</strong>,
+                <strong> laboral</strong>, <strong>civil</strong>,
+                <strong> consumo</strong> y <strong>renta</strong>, con una forma
+                de trabajar directa y útil.
               </p>
 
               <div className="heroButtons">
@@ -350,8 +329,8 @@ export default function HomePage() {
               <h2 className="infoTitle">Cómo trabajamos</h2>
               <p className="infoText">
                 Ordenamos el expediente, pedimos lo necesario, resolvemos dudas y
-                mantenemos un seguimiento claro. Cuando hace falta, usamos el portal
-                cliente para que puedas enviar documentación de forma rápida.
+                mantenemos un seguimiento claro. Si ya eres cliente, puedes usar el
+                portal para enviar documentación y seguir tu caso.
               </p>
             </article>
 
@@ -359,36 +338,41 @@ export default function HomePage() {
               <h2 className="infoTitle">Portal cliente</h2>
               <p className="infoText">
                 Tu expediente, tus documentos y tu acceso privado en un solo sitio.
-                El portal sirve para consultar el caso, revisar datos y subir archivos
-                sin depender siempre del WhatsApp.
+                Útil para subir papeles, revisar datos y mantener el caso más ordenado.
               </p>
             </article>
           </section>
 
           <section className="contentSection">
-            <h2 className="sectionTitle">
-              Asesoría jurídica gratuita y orientación útil desde el primer paso
-            </h2>
+            <h2 className="sectionTitle">Extranjería sin tecnicismos y con estrategia</h2>
 
             <div className="contentCard">
               <p className="longText">
-                Muchas personas llegan a internet buscando <strong>abogado gratis</strong>,
-                <strong> asesoría gratuita</strong> o
-                <strong> asesoramiento jurídico gratuito</strong> cuando en realidad
-                lo que necesitan primero es entender qué problema tienen, qué opciones
-                existen y qué camino es más sensato. En {BRAND_NAME} trabajamos justo
-                esa primera parte con claridad: escuchar, ordenar, detectar riesgos,
-                pedir lo que falta y decirte las cosas como son.
+                En nuestra comunicación diaria tratamos temas de <strong>extranjería</strong>
+                como <strong>arraigo social</strong>, <strong>arraigo sociolaboral</strong>,
+                <strong> arraigo familiar</strong>, <strong>nacionalidad española</strong>,
+                <strong> regularización</strong>, <strong>residencia</strong>,
+                <strong> autorización de trabajo</strong>, <strong>residencia temporal</strong>,
+                <strong> renovación de papeles</strong> y situaciones reales que muchas
+                personas viven cuando no saben por dónde empezar.
               </p>
 
               <p className="longText">
-                Esa primera orientación es especialmente útil cuando hay dudas sobre
-                <strong> extranjería</strong>, <strong>despidos</strong>,
-                <strong> finiquito</strong>, <strong>indemnización</strong>,
-                <strong> consumo</strong>, <strong>micropréstamos</strong>,
-                <strong> reclamaciones</strong> o incluso
-                <strong> declaración de la renta</strong>. No todo empieza con un juicio:
-                muchas veces empieza con una explicación clara y una estrategia bien pensada.
+                También explicamos asuntos como <strong>requisitos reales del arraigo 2026</strong>,
+                <strong> expediente de extranjería</strong>,
+                <strong> resolución favorable</strong>,
+                <strong> denegaciones</strong>, <strong>cómo preparar documentación</strong>,
+                <strong> errores frecuentes en regularización</strong> y formas de enfocar
+                cada caso sin promesas vacías.
+              </p>
+
+              <p className="longText">
+                La idea es que cuando alguien busque información sobre
+                <strong> nacionalidad</strong>, <strong>arraigo</strong>,
+                <strong> regularización</strong>, <strong>residencia</strong>,
+                <strong> extranjería en España</strong> o
+                <strong> ayuda para papeles</strong>, encuentre una página clara,
+                seria y conectada con un despacho real.
               </p>
             </div>
           </section>
@@ -400,75 +384,59 @@ export default function HomePage() {
               <article className="infoCard">
                 <h3 className="smallTitle">Extranjería</h3>
                 <p className="infoText">
-                  Arraigo, residencia, regularización, expedientes y orientación
-                  sobre trámites de extranjería.
+                  Arraigo, nacionalidad, regularización, residencia, trabajo y seguimiento de expedientes.
                 </p>
               </article>
 
               <article className="infoCard">
                 <h3 className="smallTitle">Laboral</h3>
                 <p className="infoText">
-                  Despidos, finiquito, indemnización, horas extra, reclamaciones
-                  y defensa del trabajador.
+                  Despidos, finiquito, indemnización, horas extra, reclamaciones y defensa del trabajador.
                 </p>
               </article>
 
               <article className="infoCard">
                 <h3 className="smallTitle">Civil</h3>
                 <p className="infoText">
-                  Reclamaciones, conflictos, acompañamiento jurídico y defensa en
-                  situaciones que necesitan orden y estrategia.
+                  Reclamaciones, conflictos y acompañamiento jurídico cuando hace falta orden y estrategia.
                 </p>
               </article>
 
               <article className="infoCard">
                 <h3 className="smallTitle">Consumo</h3>
                 <p className="infoText">
-                  Micropréstamos, intereses abusivos, reclamaciones al consumo y
-                  conflictos con empresas o contratos.
+                  Micropréstamos, intereses abusivos, reclamaciones y conflictos con empresas o contratos.
                 </p>
               </article>
 
               <article className="infoCard">
                 <h3 className="smallTitle">Renta</h3>
                 <p className="infoText">
-                  Ayuda con la declaración de la renta, revisión de dudas y apoyo
-                  para presentar correctamente la documentación.
+                  Ayuda con la declaración de la renta, revisión de dudas y apoyo documental.
                 </p>
               </article>
 
               <article className="infoCard">
                 <h3 className="smallTitle">Orientación jurídica</h3>
                 <p className="infoText">
-                  Cuando no sabes por dónde empezar, te ayudamos a convertir el caos
-                  en pasos concretos.
+                  Cuando no sabes por dónde empezar, te ayudamos a convertir el caos en pasos concretos.
                 </p>
               </article>
             </div>
           </section>
 
           <section className="contentSection">
-            <h2 className="sectionTitle">
-              Contenido útil, resoluciones y explicaciones sin tecnicismos
-            </h2>
+            <h2 className="sectionTitle">Contenido útil sobre casos reales</h2>
 
             <div className="contentCard">
               <p className="longText">
-                En nuestra comunicación diaria hablamos de temas como
-                <strong> arraigo 2026</strong>, <strong>finiquito e indemnización</strong>,
-                <strong> horas semanales retribuidas para buscar empleo</strong>,
-                <strong> despidos por WhatsApp</strong>,
-                <strong> incidencias con micropréstamos</strong> y otros asuntos que
-                afectan a personas reales. La idea no es solo captar una visita: es
-                explicar mejor, generar confianza y aportar contexto antes de pedir
-                nada a cambio.
-              </p>
-
-              <p className="longText">
-                Si buscas <strong>{BRAND_NAME}</strong>, <strong>{BRAND_ALT}</strong>,
-                <strong> NIRA</strong>, <strong>nira abogados</strong> o
-                <strong> niralegalgroup</strong>, esta página deja claro quiénes somos,
-                qué hacemos y cómo puedes contactarnos o acceder a tu expediente.
+                Además de extranjería, también trabajamos y explicamos cuestiones de
+                <strong> despido</strong>, <strong>finiquito</strong>,
+                <strong> indemnización</strong>, <strong>horas extra</strong>,
+                <strong> consumo</strong>, <strong>micropréstamos</strong> y
+                <strong> declaración de la renta</strong>. La intención no es llenar
+                la web de ruido, sino explicar mejor y ayudar a que una persona entienda
+                si necesita reclamar, esperar, aportar documentos o actuar rápido.
               </p>
             </div>
           </section>
@@ -481,8 +449,7 @@ export default function HomePage() {
                 <div className="featureNumber">01</div>
                 <h3 className="featureTitle">Consultar</h3>
                 <p className="infoText">
-                  Entender si tu problema es laboral, de extranjería, civil,
-                  consumo o renta.
+                  Entender si tu problema es de extranjería, laboral, civil, consumo o renta.
                 </p>
               </div>
 
@@ -526,26 +493,18 @@ export default function HomePage() {
               </details>
 
               <details className="faqItem">
-                <summary>¿Ofrecéis asesoría jurídica gratuita?</summary>
-                <p>
-                  Sí. Ofrecemos una primera orientación informativa para entender
-                  la situación, ordenar el problema y ver por dónde empezar.
-                </p>
-              </details>
-
-              <details className="faqItem">
                 <summary>¿Lleváis temas de extranjería?</summary>
                 <p>
-                  Sí. Entre otros, orientación sobre arraigo, residencia,
-                  regularización y seguimiento de expedientes.
+                  Sí. Entre otros, trabajamos temas de arraigo, nacionalidad,
+                  regularización, residencia y expedientes de extranjería.
                 </p>
               </details>
 
               <details className="faqItem">
-                <summary>¿Lleváis despidos, finiquito e indemnización?</summary>
+                <summary>¿Qué tipo de temas de extranjería tratáis?</summary>
                 <p>
-                  Sí. También reclamaciones laborales, horas extra y situaciones
-                  en las que conviene revisar documentos antes de firmar.
+                  Arraigo social, arraigo sociolaboral, residencia, nacionalidad,
+                  regularización y otras situaciones relacionadas con papeles y trámites.
                 </p>
               </details>
 
@@ -558,11 +517,10 @@ export default function HomePage() {
               </details>
 
               <details className="faqItem">
-                <summary>¿Por qué no siempre aparecéis todavía en todas las búsquedas?</summary>
+                <summary>¿También trabajáis laboral, civil o consumo?</summary>
                 <p>
-                  Porque Google necesita entender bien la marca, el contenido y la
-                  entidad detrás del sitio. Esta página está pensada precisamente
-                  para dejar eso mucho más claro.
+                  Sí. Además de extranjería, también trabajamos asuntos laborales,
+                  civiles, de consumo y otras consultas jurídicas.
                 </p>
               </details>
             </div>
