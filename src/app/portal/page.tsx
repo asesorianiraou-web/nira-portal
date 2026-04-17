@@ -106,152 +106,207 @@ export default function PortalPage() {
   }
 
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        background: '#050505',
-        color: 'white',
-        padding: '32px 20px',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '900px',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-        }}
-      >
-        <div
-          style={{
-            background: '#0B0B0B',
-            border: '1px solid #171717',
-            borderRadius: '24px',
-            padding: '24px',
-          }}
-        >
-          <h1
-            style={{
-              marginTop: 0,
-              fontFamily: 'TimesCustom, serif',
-              fontSize: '42px',
-            }}
-          >
-            Tu expediente
-          </h1>
+    <>
+      <main className="page">
+        <div className="wrap">
+          <section className="card">
+            <h1 className="title">Tu expediente</h1>
 
-          {expediente ? (
-            <>
-              <p><strong>Título:</strong> {expediente.expediente_titulo}</p>
-              <p><strong>Estado:</strong> {expediente.expediente_estado}</p>
-              <p><strong>Descripción:</strong> {expediente.expediente_descripcion || 'Sin descripción.'}</p>
-              <p>
-                <strong>Última modificación:</strong>{' '}
-                {new Date(expediente.expediente_ultima_modificacion).toLocaleString('es-ES')}
-              </p>
-            </>
-          ) : (
-            <p>Cargando expediente...</p>
-          )}
-        </div>
+            {expediente ? (
+              <div className="expedienteInfo">
+                <p>
+                  <strong>Título:</strong> {expediente.expediente_titulo}
+                </p>
+                <p>
+                  <strong>Estado:</strong> {expediente.expediente_estado}
+                </p>
+                <p>
+                  <strong>Descripción:</strong>{' '}
+                  {expediente.expediente_descripcion || 'Sin descripción.'}
+                </p>
+                <p>
+                  <strong>Última modificación:</strong>{' '}
+                  {new Date(expediente.expediente_ultima_modificacion).toLocaleString('es-ES')}
+                </p>
+              </div>
+            ) : (
+              <p className="muted">Cargando expediente...</p>
+            )}
+          </section>
 
-        <div
-          style={{
-            background: '#0B0B0B',
-            border: '1px solid #171717',
-            borderRadius: '24px',
-            padding: '24px',
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: 'TimesCustom, serif',
-              fontSize: '30px',
-              marginTop: 0,
-            }}
-          >
-            Subir archivo
-          </h2>
+          <section className="card">
+            <h2 className="subtitle">Subir archivo</h2>
 
-          <p style={{ color: '#B0B0B0' }}>
-            Puedes subir foto, vídeo, audio, PDF o DOCX.
-          </p>
+            <p className="muted">
+              Puedes subir foto, vídeo, audio, PDF o DOCX.
+            </p>
 
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-              marginTop: '18px',
-            }}
-          >
-            <label
-              style={{
-                display: 'inline-block',
-                background: 'white',
-                color: 'black',
-                padding: '14px 18px',
-                borderRadius: '14px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                width: 'fit-content',
-              }}
+            <div className="uploadBox">
+              <label className="primaryButton">
+                {subiendo ? 'Subiendo...' : 'Tomar foto o subir archivo'}
+                <input
+                  type="file"
+                  accept="image/*,video/*,audio/*,.pdf,.docx"
+                  capture="environment"
+                  style={{ display: 'none' }}
+                  onChange={(e) => subirArchivo(e.target.files?.[0] || null)}
+                />
+              </label>
+            </div>
+          </section>
+
+          <section className="actions">
+            <a
+              href="https://wa.me/34684741648"
+              target="_blank"
+              rel="noreferrer"
+              className="ghostButton"
             >
-              {subiendo ? 'Subiendo...' : 'Tomar foto o subir archivo'}
-              <input
-                type="file"
-                accept="image/*,video/*,audio/*,.pdf,.docx"
-                capture="environment"
-                style={{ display: 'none' }}
-                onChange={(e) => subirArchivo(e.target.files?.[0] || null)}
-              />
-            </label>
-          </div>
+              Contactar por WhatsApp
+            </a>
+
+            <button onClick={cerrarSesion} className="ghostButton buttonReset">
+              Cerrar sesión
+            </button>
+          </section>
+
+          {mensaje ? <div className="message">{mensaje}</div> : null}
         </div>
+      </main>
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: '12px',
-            flexWrap: 'wrap',
-          }}
-        >
-          <a
-            href="https://wa.me/34684741648"
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: '#111',
-              color: 'white',
-              border: '1px solid #262626',
-              borderRadius: '14px',
-              padding: '14px 18px',
-            }}
-          >
-            Contactar por WhatsApp
-          </a>
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background: #050505;
+          color: white;
+          padding: 24px 16px 40px;
+        }
 
-          <button
-            onClick={cerrarSesion}
-            style={{
-              background: '#111',
-              color: 'white',
-              border: '1px solid #262626',
-              borderRadius: '14px',
-              padding: '14px 18px',
-              cursor: 'pointer',
-            }}
-          >
-            Cerrar sesión
-          </button>
-        </div>
+        .wrap {
+          width: 100%;
+          max-width: 940px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
 
-        {mensaje ? (
-          <div style={{ color: '#D6C29A' }}>{mensaje}</div>
-        ) : null}
-      </div>
-    </main>
+        .card {
+          background: #0b0b0b;
+          border: 1px solid #171717;
+          border-radius: 24px;
+          padding: 24px;
+        }
+
+        .title {
+          margin-top: 0;
+          margin-bottom: 16px;
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(34px, 5vw, 52px);
+        }
+
+        .subtitle {
+          margin-top: 0;
+          margin-bottom: 12px;
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(26px, 4vw, 34px);
+        }
+
+        .expedienteInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          line-height: 1.7;
+          word-break: break-word;
+        }
+
+        .expedienteInfo p {
+          margin: 0;
+        }
+
+        .muted {
+          color: #b0b0b0;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        .uploadBox {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          margin-top: 18px;
+        }
+
+        .primaryButton {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: white;
+          color: black;
+          padding: 14px 18px;
+          border-radius: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          width: fit-content;
+          min-height: 50px;
+          box-sizing: border-box;
+        }
+
+        .actions {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .ghostButton {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #111;
+          color: white;
+          border: 1px solid #262626;
+          border-radius: 14px;
+          padding: 14px 18px;
+          text-decoration: none;
+          min-height: 50px;
+          box-sizing: border-box;
+        }
+
+        .buttonReset {
+          cursor: pointer;
+          font: inherit;
+        }
+
+        .message {
+          color: #d6c29a;
+          line-height: 1.5;
+          word-break: break-word;
+        }
+
+        @media (max-width: 640px) {
+          .page {
+            padding: 16px 12px 28px;
+          }
+
+          .card {
+            padding: 18px;
+            border-radius: 20px;
+          }
+
+          .actions {
+            flex-direction: column;
+          }
+
+          .actions > * {
+            width: 100%;
+          }
+
+          .primaryButton {
+            width: 100%;
+          }
+        }
+      `}</style>
+    </>
   )
 }
