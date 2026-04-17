@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
@@ -12,36 +12,6 @@ const WHATSAPP_URL = 'https://wa.me/34684741648'
 const INSTAGRAM_URL = 'https://www.instagram.com/niralegalgroup'
 const LOGO_URL = `${SITE_URL}/images/nira_logo.png`
 
-function upsertMetaByName(name: string, content: string) {
-  let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
-  if (!el) {
-    el = document.createElement('meta')
-    el.setAttribute('name', name)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', content)
-}
-
-function upsertMetaByProperty(property: string, content: string) {
-  let el = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null
-  if (!el) {
-    el = document.createElement('meta')
-    el.setAttribute('property', property)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', content)
-}
-
-function upsertLink(rel: string, href: string) {
-  let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null
-  if (!el) {
-    el = document.createElement('link')
-    el.setAttribute('rel', rel)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('href', href)
-}
-
 export default function HomePage() {
   const router = useRouter()
 
@@ -50,28 +20,6 @@ export default function HomePage() {
   const [apellidos, setApellidos] = useState('')
   const [mensaje, setMensaje] = useState('')
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    const title =
-      'NIRA LEGAL GROUP | Extranjería, laboral, civil, consumo, renta y portal cliente'
-    const description =
-      'NIRA LEGAL GROUP es un despacho jurídico con servicios en extranjería, laboral, civil, consumo, renta y portal cliente para enviar documentación y seguir tu caso.'
-
-    document.title = title
-    upsertMetaByName('description', description)
-    upsertMetaByName('robots', 'index,follow,max-image-preview:large')
-    upsertMetaByProperty('og:title', title)
-    upsertMetaByProperty('og:description', description)
-    upsertMetaByProperty('og:type', 'website')
-    upsertMetaByProperty('og:url', SITE_URL)
-    upsertMetaByProperty('og:site_name', BRAND_NAME)
-    upsertMetaByProperty('og:image', LOGO_URL)
-    upsertMetaByName('twitter:card', 'summary_large_image')
-    upsertMetaByName('twitter:title', title)
-    upsertMetaByName('twitter:description', description)
-    upsertMetaByName('twitter:image', LOGO_URL)
-    upsertLink('canonical', SITE_URL)
-  }, [])
 
   const websiteSchema = useMemo(
     () => ({
