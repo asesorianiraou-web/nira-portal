@@ -160,8 +160,7 @@ export default function PortalPage() {
                 </div>
 
                 <p className="noticeText">
-                  A veces tardamos un poco en asignar el número de expediente o el código del caso.
-                  Si todavía no aparecen, no significa que tu caso no esté en marcha.
+                  Que tu derecho no dependa de tu bolsillo.
                 </p>
 
                 <div className="expedienteInfo">
@@ -305,9 +304,11 @@ export default function PortalPage() {
         }
 
         .noticeText {
-          color: #b0b0b0;
-          line-height: 1.6;
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(22px, 3.5vw, 34px);
+          line-height: 1.2;
           margin: 0 0 18px 0;
+          color: white;
         }
 
         .expedienteInfo {
