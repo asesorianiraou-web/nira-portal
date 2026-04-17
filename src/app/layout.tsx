@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'NIRA Legal Group | Asesoría jurídica con compromiso social',
+  title: 'NIRA LEGAL GROUP | Asesoría jurídica con compromiso social',
   description:
-    'NIRA Legal Group es una asesoría jurídica centrada en justicia, ética y compromiso social. Orientación y acompañamiento en laboral, extranjería, micropréstamos y más.',
+    'NIRA LEGAL GROUP es una asesoría jurídica centrada en justicia, ética y compromiso social. Orientación y acompañamiento en laboral, extranjería, micropréstamos y más.',
   keywords: [
-    'NIRA Legal Group',
+    'NIRA LEGAL GROUP',
     'asesoría jurídica',
     'despacho jurídico',
     'laboral',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     'asesoría legal'
   ],
   openGraph: {
-    title: 'NIRA Legal Group',
+    title: 'NIRA LEGAL GROUP',
     description:
       'Justicia, ética y compromiso social. Acompañamiento jurídico real para quienes más lo necesitan.',
     images: ['/images/nira_logo.png'],
