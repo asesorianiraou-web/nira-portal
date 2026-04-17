@@ -64,397 +64,505 @@ export default function HomePage() {
   }
 
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        background: '#050505',
-        color: 'white',
-      }}
-    >
-      <section
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '32px 24px 20px',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 16,
-            flexWrap: 'wrap',
-            marginBottom: 28,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Image
-              src="/images/nira_logo.png"
-              alt="NIRA Legal Group"
-              width={60}
-              height={60}
-              style={{ objectFit: 'contain' }}
-            />
-            <div>
-              <div
-                style={{
-                  fontFamily: 'TimesCustom, serif',
-                  fontSize: 28,
-                  lineHeight: 1.1,
-                }}
-              >
-                NIRA LEGAL GROUP
+    <>
+      <main className="page">
+        <section className="wrap">
+          <header className="topbar">
+            <div className="brand">
+              <div className="brand-logo">
+                <Image
+                  src="/images/nira_logo.png"
+                  alt="NIRA Legal Group"
+                  width={60}
+                  height={60}
+                />
               </div>
-              <div style={{ color: '#B0B0B0', fontSize: 14 }}>
-                Asesoría y defensa jurídica
+
+              <div className="brand-copy">
+                <div className="brand-title">NIRA LEGAL GROUP</div>
+                <div className="brand-subtitle">Asesoría y defensa jurídica</div>
               </div>
             </div>
-          </div>
 
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a
-              href="https://wa.me/34684741648"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                background: '#111',
-                color: 'white',
-                border: '1px solid #262626',
-                borderRadius: 14,
-                padding: '12px 16px',
-              }}
-            >
-              WhatsApp
-            </a>
-
-            <a
-              href="https://www.instagram.com/niralegalgroup"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                background: '#111',
-                color: 'white',
-                border: '1px solid #262626',
-                borderRadius: 14,
-                padding: '12px 16px',
-              }}
-            >
-              Instagram
-            </a>
-          </div>
-        </div>
-
-        <div
-          style={{
-            background: '#0B0B0B',
-            border: '1px solid #171717',
-            borderRadius: 28,
-            padding: '32px 24px',
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 0.8fr',
-            gap: 24,
-          }}
-        >
-          <div>
-            <h1
-              style={{
-                margin: 0,
-                fontFamily: 'TimesCustom, serif',
-                fontSize: 54,
-                lineHeight: 1.05,
-              }}
-            >
-              Defensa jurídica clara, cercana y seria
-            </h1>
-
-            <p
-              style={{
-                color: '#B0B0B0',
-                fontSize: 18,
-                lineHeight: 1.6,
-                marginTop: 18,
-                maxWidth: 700,
-              }}
-            >
-              En NIRA Legal Group ayudamos a ordenar el problema, explicar el
-              camino y acompañarte durante todo el expediente.
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                gap: 12,
-                flexWrap: 'wrap',
-                marginTop: 20,
-              }}
-            >
+            <div className="top-actions">
               <a
-                href="#portal"
-                style={{
-                  background: 'white',
-                  color: 'black',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                  fontWeight: 'bold',
-                }}
+                href="https://wa.me/34684741648"
+                target="_blank"
+                rel="noreferrer"
+                className="ghostButton"
               >
-                Acceso cliente
+                WhatsApp
               </a>
 
               <a
-                href="#areas"
-                style={{
-                  background: '#111',
-                  color: 'white',
-                  border: '1px solid #262626',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                }}
+                href="https://www.instagram.com/niralegalgroup"
+                target="_blank"
+                rel="noreferrer"
+                className="ghostButton"
               >
-                Áreas que llevamos
+                Instagram
               </a>
             </div>
-          </div>
+          </header>
 
-          <div
-            style={{
-              background: '#080808',
-              border: '1px solid #171717',
-              borderRadius: 24,
-              padding: 22,
-            }}
-          >
-            <h2
-              style={{
-                marginTop: 0,
-                marginBottom: 10,
-                fontFamily: 'TimesCustom, serif',
-                fontSize: 34,
-              }}
-            >
-              Acceso cliente
-            </h2>
+          <section className="hero">
+            <div className="heroLeft">
+              <h1 className="heroTitle">Defensa jurídica clara, cercana y seria</h1>
 
-            <p style={{ color: '#B0B0B0', marginTop: 0, lineHeight: 1.6 }}>
-              Entra con el código que te dio el despacho, junto con tu nombre y
-              apellidos.
-            </p>
+              <p className="heroText">
+                En NIRA Legal Group ayudamos a ordenar el problema, explicar el
+                camino y acompañarte durante todo el expediente.
+              </p>
 
-            <form
-              id="portal"
-              onSubmit={entrarPortal}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 12,
-                marginTop: 18,
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Código"
-                value={codigo}
-                onChange={(e) => setCodigo(e.target.value)}
-                style={inputStyle}
-              />
+              <div className="heroButtons">
+                <a href="#portal" className="primaryButton">
+                  Acceso cliente
+                </a>
 
-              <input
-                type="text"
-                placeholder="Nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                style={inputStyle}
-              />
-
-              <input
-                type="text"
-                placeholder="Apellidos"
-                value={apellidos}
-                onChange={(e) => setApellidos(e.target.value)}
-                style={inputStyle}
-              />
-
-              <button
-                type="submit"
-                disabled={loading}
-                style={{
-                  background: 'white',
-                  color: 'black',
-                  border: 'none',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                  fontWeight: 'bold',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.7 : 1,
-                  marginTop: 4,
-                }}
-              >
-                {loading ? 'Comprobando...' : 'Entrar al portal'}
-              </button>
-            </form>
-
-            {mensaje ? (
-              <div
-                style={{
-                  marginTop: 14,
-                  color: '#D6C29A',
-                  lineHeight: 1.5,
-                }}
-              >
-                {mensaje}
+                <a href="#areas" className="ghostButton">
+                  Áreas que llevamos
+                </a>
               </div>
-            ) : null}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      <section
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '10px 24px 50px',
-        }}
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 16,
-          }}
-        >
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Quiénes somos</h3>
-            <p style={cardTextStyle}>
-              Un despacho que busca explicar bien, actuar con estrategia y no
-              vender humo.
-            </p>
-          </div>
+            <div className="heroRight">
+              <div className="loginCard">
+                <h2 className="cardHeading">Acceso cliente</h2>
 
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Cómo trabajamos</h3>
-            <p style={cardTextStyle}>
-              Ordenamos el expediente, pedimos lo necesario y mantenemos un
-              seguimiento claro.
-            </p>
-          </div>
+                <p className="cardText">
+                  Entra con el código que te dio el despacho, junto con tu nombre y
+                  apellidos.
+                </p>
 
-          <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Portal cliente</h3>
-            <p style={cardTextStyle}>
-              Consulta tu expediente y sube documentos desde cualquier
-              dispositivo.
-            </p>
-          </div>
-        </div>
-      </section>
+                <form id="portal" onSubmit={entrarPortal} className="form">
+                  <input
+                    type="text"
+                    placeholder="Código"
+                    value={codigo}
+                    onChange={(e) => setCodigo(e.target.value)}
+                    className="input"
+                  />
 
-      <section
-        id="areas"
-        style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          padding: '0 24px 60px',
-        }}
-      >
-        <h3
-          style={{
-            fontFamily: 'TimesCustom, serif',
-            fontSize: 48,
-            marginTop: 0,
-            marginBottom: 22,
-          }}
-        >
-          Áreas que llevamos
-        </h3>
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    className="input"
+                  />
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 16,
-          }}
-        >
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Laboral</h4>
-            <p style={cardTextStyle}>
-              Despidos, reclamaciones y defensa del trabajador.
-            </p>
-          </div>
+                  <input
+                    type="text"
+                    placeholder="Apellidos"
+                    value={apellidos}
+                    onChange={(e) => setApellidos(e.target.value)}
+                    className="input"
+                  />
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Extranjería</h4>
-            <p style={cardTextStyle}>
-              Regularización, solicitudes y expedientes.
-            </p>
-          </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="submitButton"
+                  >
+                    {loading ? 'Comprobando...' : 'Entrar al portal'}
+                  </button>
+                </form>
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Civil</h4>
-            <p style={cardTextStyle}>
-              Reclamaciones, conflictos y acompañamiento jurídico.
-            </p>
-          </div>
+                {mensaje ? <div className="message">{mensaje}</div> : null}
+              </div>
+            </div>
+          </section>
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Consumo</h4>
-            <p style={cardTextStyle}>
-              Defensa frente a abusos y reclamaciones desproporcionadas.
-            </p>
-          </div>
+          <section className="cards3">
+            <article className="infoCard">
+              <h3 className="infoTitle">Quiénes somos</h3>
+              <p className="infoText">
+                Un despacho que busca explicar bien, actuar con estrategia y no vender humo.
+              </p>
+            </article>
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Orientación jurídica</h4>
-            <p style={cardTextStyle}>
-              Guía clara cuando no sabes por dónde empezar.
-            </p>
-          </div>
+            <article className="infoCard">
+              <h3 className="infoTitle">Cómo trabajamos</h3>
+              <p className="infoText">
+                Ordenamos el expediente, pedimos lo necesario y mantenemos un seguimiento claro.
+              </p>
+            </article>
 
-          <div style={cardStyle}>
-            <h4 style={smallTitleStyle}>Acompañamiento</h4>
-            <p style={cardTextStyle}>
-              Explicamos, escuchamos y ordenamos el camino.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
+            <article className="infoCard">
+              <h3 className="infoTitle">Portal cliente</h3>
+              <p className="infoText">
+                Consulta tu expediente y sube documentos desde cualquier dispositivo.
+              </p>
+            </article>
+          </section>
+
+          <section id="areas" className="areas">
+            <h3 className="sectionTitle">Áreas que llevamos</h3>
+
+            <div className="areasGrid">
+              <article className="infoCard">
+                <h4 className="smallTitle">Laboral</h4>
+                <p className="infoText">
+                  Despidos, reclamaciones y defensa del trabajador.
+                </p>
+              </article>
+
+              <article className="infoCard">
+                <h4 className="smallTitle">Extranjería</h4>
+                <p className="infoText">
+                  Regularización, solicitudes y expedientes.
+                </p>
+              </article>
+
+              <article className="infoCard">
+                <h4 className="smallTitle">Civil</h4>
+                <p className="infoText">
+                  Reclamaciones, conflictos y acompañamiento jurídico.
+                </p>
+              </article>
+
+              <article className="infoCard">
+                <h4 className="smallTitle">Consumo</h4>
+                <p className="infoText">
+                  Defensa frente a abusos y reclamaciones desproporcionadas.
+                </p>
+              </article>
+
+              <article className="infoCard">
+                <h4 className="smallTitle">Orientación jurídica</h4>
+                <p className="infoText">
+                  Guía clara cuando no sabes por dónde empezar.
+                </p>
+              </article>
+
+              <article className="infoCard">
+                <h4 className="smallTitle">Acompañamiento</h4>
+                <p className="infoText">
+                  Explicamos, escuchamos y ordenamos el camino.
+                </p>
+              </article>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background: #050505;
+          color: white;
+        }
+
+        .wrap {
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 24px 20px 56px;
+          box-sizing: border-box;
+        }
+
+        .topbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+          margin-bottom: 24px;
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          min-width: 0;
+        }
+
+        .brand-logo {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .brand-copy {
+          min-width: 0;
+        }
+
+        .brand-title {
+          font-family: 'Times New Roman', serif;
+          font-size: 34px;
+          line-height: 1;
+        }
+
+        .brand-subtitle {
+          color: #b0b0b0;
+          font-size: 14px;
+          margin-top: 4px;
+        }
+
+        .top-actions {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .hero {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(320px, 420px);
+          gap: 24px;
+          background: #0b0b0b;
+          border: 1px solid #171717;
+          border-radius: 28px;
+          padding: 26px;
+        }
+
+        .heroLeft {
+          min-width: 0;
+        }
+
+        .heroRight {
+          display: flex;
+          align-items: stretch;
+        }
+
+        .heroTitle {
+          margin: 0;
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(42px, 6vw, 76px);
+          line-height: 0.98;
+        }
+
+        .heroText {
+          color: #b0b0b0;
+          font-size: clamp(15px, 2vw, 18px);
+          line-height: 1.7;
+          margin-top: 18px;
+          max-width: 760px;
+        }
+
+        .heroButtons {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 22px;
+        }
+
+        .loginCard {
+          width: 100%;
+          background: #080808;
+          border: 1px solid #171717;
+          border-radius: 24px;
+          padding: 22px;
+          box-sizing: border-box;
+        }
+
+        .cardHeading {
+          margin: 0 0 10px 0;
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(28px, 4vw, 40px);
+        }
+
+        .cardText {
+          color: #b0b0b0;
+          line-height: 1.6;
+          margin: 0 0 16px 0;
+          font-size: 14px;
+        }
+
+        .form {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .input {
+          width: 100%;
+          background: #050505;
+          color: white;
+          border: 1px solid #262626;
+          border-radius: 14px;
+          padding: 14px 16px;
+          outline: none;
+          box-sizing: border-box;
+        }
+
+        .input::placeholder {
+          color: #7f7f7f;
+        }
+
+        .submitButton {
+          background: white;
+          color: black;
+          border: none;
+          border-radius: 14px;
+          padding: 14px 18px;
+          font-weight: 700;
+          cursor: pointer;
+          margin-top: 4px;
+        }
+
+        .submitButton:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        .primaryButton {
+          background: white;
+          color: black;
+          border-radius: 14px;
+          padding: 14px 18px;
+          font-weight: 700;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .ghostButton {
+          background: #111;
+          color: white;
+          border: 1px solid #262626;
+          border-radius: 14px;
+          padding: 14px 18px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .message {
+          margin-top: 14px;
+          color: #d6c29a;
+          line-height: 1.5;
+          font-size: 14px;
+        }
+
+        .cards3 {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+          margin-top: 20px;
+        }
+
+        .areas {
+          margin-top: 28px;
+        }
+
+        .sectionTitle {
+          font-family: 'Times New Roman', serif;
+          font-size: clamp(38px, 5vw, 60px);
+          margin: 0 0 22px 0;
+        }
+
+        .areasGrid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 16px;
+        }
+
+        .infoCard {
+          background: #0b0b0b;
+          border: 1px solid #171717;
+          border-radius: 24px;
+          padding: 22px;
+          min-width: 0;
+        }
+
+        .infoTitle {
+          margin: 0 0 10px 0;
+          font-family: 'Times New Roman', serif;
+          font-size: 28px;
+        }
+
+        .smallTitle {
+          margin: 0 0 10px 0;
+          font-family: 'Times New Roman', serif;
+          font-size: 24px;
+        }
+
+        .infoText {
+          margin: 0;
+          color: #b0b0b0;
+          line-height: 1.6;
+          font-size: 15px;
+        }
+
+        @media (max-width: 1024px) {
+          .hero {
+            grid-template-columns: 1fr;
+          }
+
+          .heroRight {
+            display: block;
+          }
+
+          .cards3 {
+            grid-template-columns: 1fr;
+          }
+
+          .areasGrid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 640px) {
+          .wrap {
+            padding: 18px 14px 40px;
+          }
+
+          .brand {
+            gap: 10px;
+          }
+
+          .brand-title {
+            font-size: 24px;
+          }
+
+          .brand-subtitle {
+            font-size: 12px;
+          }
+
+          .top-actions {
+            width: 100%;
+          }
+
+          .top-actions a {
+            flex: 1 1 auto;
+          }
+
+          .hero {
+            padding: 18px;
+            border-radius: 22px;
+          }
+
+          .heroButtons {
+            flex-direction: column;
+          }
+
+          .heroButtons a {
+            width: 100%;
+            box-sizing: border-box;
+          }
+
+          .loginCard {
+            padding: 18px;
+          }
+
+          .areasGrid {
+            grid-template-columns: 1fr;
+          }
+
+          .infoCard {
+            padding: 18px;
+          }
+
+          .primaryButton,
+          .ghostButton,
+          .submitButton {
+            min-height: 50px;
+          }
+        }
+      `}</style>
+    </>
   )
-}
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  background: '#050505',
-  color: 'white',
-  border: '1px solid #262626',
-  borderRadius: 14,
-  padding: '14px 16px',
-  outline: 'none',
-}
-
-const cardStyle: React.CSSProperties = {
-  background: '#0B0B0B',
-  border: '1px solid #171717',
-  borderRadius: 24,
-  padding: 22,
-}
-
-const cardTitleStyle: React.CSSProperties = {
-  marginTop: 0,
-  marginBottom: 10,
-  fontFamily: 'TimesCustom, serif',
-  fontSize: 28,
-}
-
-const smallTitleStyle: React.CSSProperties = {
-  marginTop: 0,
-  marginBottom: 10,
-  fontFamily: 'TimesCustom, serif',
-  fontSize: 24,
-}
-
-const cardTextStyle: React.CSSProperties = {
-  margin: 0,
-  color: '#B0B0B0',
-  lineHeight: 1.6,
 }
