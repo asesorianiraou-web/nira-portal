@@ -97,7 +97,15 @@ function renderMarkdownLite(texto: string) {
 
     if (lineas.length === 1 && lineas[0].startsWith('### ')) {
       return (
-        <h3 key={index} className="mdH3">
+        <h3
+          key={index}
+          style={{
+            fontFamily: "'Times New Roman', serif",
+            lineHeight: '1.08',
+            margin: '0 0 14px 0',
+            fontSize: '28px',
+          }}
+        >
           {parseInline(lineas[0].slice(4))}
         </h3>
       )
@@ -105,7 +113,15 @@ function renderMarkdownLite(texto: string) {
 
     if (lineas.length === 1 && lineas[0].startsWith('## ')) {
       return (
-        <h2 key={index} className="mdH2">
+        <h2
+          key={index}
+          style={{
+            fontFamily: "'Times New Roman', serif",
+            lineHeight: '1.08',
+            margin: '0 0 14px 0',
+            fontSize: '34px',
+          }}
+        >
           {parseInline(lineas[0].slice(3))}
         </h2>
       )
@@ -113,7 +129,15 @@ function renderMarkdownLite(texto: string) {
 
     if (lineas.length === 1 && lineas[0].startsWith('# ')) {
       return (
-        <h1 key={index} className="mdH1">
+        <h1
+          key={index}
+          style={{
+            fontFamily: "'Times New Roman', serif",
+            lineHeight: '1.08',
+            margin: '0 0 14px 0',
+            fontSize: '42px',
+          }}
+        >
           {parseInline(lineas[0].slice(2))}
         </h1>
       )
@@ -121,7 +145,16 @@ function renderMarkdownLite(texto: string) {
 
     if (lineas.every((x) => x.startsWith('- '))) {
       return (
-        <ul key={index} className="mdUl">
+        <ul
+          key={index}
+          style={{
+            margin: '0 0 18px 0',
+            paddingLeft: '22px',
+            color: '#e0e0e0',
+            lineHeight: '1.9',
+            fontSize: '17px',
+          }}
+        >
           {lineas.map((linea, i) => (
             <li key={i}>{parseInline(linea.slice(2))}</li>
           ))}
@@ -130,7 +163,15 @@ function renderMarkdownLite(texto: string) {
     }
 
     return (
-      <p key={index} className="mdP">
+      <p
+        key={index}
+        style={{
+          margin: '0 0 16px 0',
+          color: '#e0e0e0',
+          lineHeight: '1.9',
+          fontSize: '17px',
+        }}
+      >
         {lineas.map((linea, i) => (
           <Fragment key={i}>
             {i > 0 ? <br /> : null}
@@ -198,10 +239,44 @@ export default async function PublicacionDetallePage({
     'Sin contenido disponible.'
 
   return (
-    <main className="page">
-      <div className="wrap">
-        <div className="topActions">
-          <Link href="/publicaciones" className="ghostButton">
+    <main
+      style={{
+        minHeight: '100vh',
+        background: '#050505',
+        color: 'white',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '980px',
+          margin: '0 auto',
+          padding: '28px 18px 60px',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            gap: '12px',
+            flexWrap: 'wrap',
+            marginBottom: '20px',
+          }}
+        >
+          <Link
+            href="/publicaciones"
+            style={{
+              background: '#111',
+              color: 'white',
+              border: '1px solid #262626',
+              borderRadius: '14px',
+              padding: '14px 18px',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             Volver a publicaciones
           </Link>
 
@@ -209,50 +284,156 @@ export default async function PublicacionDetallePage({
             href="https://wa.me/34684741648"
             target="_blank"
             rel="noreferrer"
-            className="primaryButton"
+            style={{
+              background: 'white',
+              color: 'black',
+              borderRadius: '14px',
+              padding: '14px 18px',
+              fontWeight: 700,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             WhatsApp
           </a>
         </div>
 
-        <article className="articleCard">
-          <div className="metaTop">
-            <span className="badge">{formatearTipo(publicacion.tipo)}</span>
-            {publicacion.destacado ? <span className="badgeGold">Destacado</span> : null}
+        <article
+          style={{
+            background: '#0b0b0b',
+            border: '1px solid #171717',
+            borderRadius: '28px',
+            padding: '26px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              gap: '8px',
+              flexWrap: 'wrap',
+              marginBottom: '14px',
+            }}
+          >
+            <span
+              style={{
+                borderRadius: '999px',
+                padding: '6px 10px',
+                fontSize: '12px',
+                border: '1px solid #262626',
+                background: '#111',
+                color: 'white',
+                width: 'fit-content',
+              }}
+            >
+              {formatearTipo(publicacion.tipo)}
+            </span>
+
+            {publicacion.destacado ? (
+              <span
+                style={{
+                  borderRadius: '999px',
+                  padding: '6px 10px',
+                  fontSize: '12px',
+                  border: '1px solid #3b3423',
+                  background: '#111',
+                  color: '#d6c29a',
+                  width: 'fit-content',
+                }}
+              >
+                Destacado
+              </span>
+            ) : null}
           </div>
 
-          <h1 className="title">{publicacion.titulo}</h1>
+          <h1
+            style={{
+              margin: 0,
+              fontFamily: "'Times New Roman', serif",
+              fontSize: 'clamp(42px, 6vw, 72px)',
+              lineHeight: '0.98',
+            }}
+          >
+            {publicacion.titulo}
+          </h1>
 
-          <div className="metaLine">
+          <div
+            style={{
+              color: '#9f9f9f',
+              fontSize: '14px',
+              lineHeight: '1.5',
+              marginTop: '16px',
+            }}
+          >
             <span>{formatearFecha(publicacion.fecha_publicacion)}</span>
-            {publicacion.lugar?.trim() ? <span>· {publicacion.lugar}</span> : null}
+            {publicacion.lugar?.trim() ? <span> · {publicacion.lugar}</span> : null}
           </div>
 
           {publicacion.resumen?.trim() ? (
-            <p className="summary">{publicacion.resumen}</p>
+            <p
+              style={{
+                margin: '18px 0 0 0',
+                color: '#d6c29a',
+                lineHeight: '1.8',
+                fontSize: '18px',
+              }}
+            >
+              {publicacion.resumen}
+            </p>
           ) : null}
 
           {publicacion.imagen_portada_url ? (
-            <div className="imageWrap">
+            <div
+              style={{
+                width: '100%',
+                marginTop: '22px',
+                borderRadius: '22px',
+                overflow: 'hidden',
+                background: '#080808',
+                border: '1px solid #171717',
+              }}
+            >
               <img
                 src={publicacion.imagen_portada_url}
                 alt={publicacion.titulo}
-                className="image"
+                style={{
+                  width: '100%',
+                  display: 'block',
+                  objectFit: 'cover',
+                }}
               />
             </div>
           ) : null}
 
-          <section className="content">
+          <section style={{ marginTop: '24px' }}>
             {renderMarkdownLite(contenidoVisible)}
           </section>
 
-          <div className="assetButtons">
+          <div
+            style={{
+              display: 'flex',
+              gap: '12px',
+              flexWrap: 'wrap',
+              marginTop: '24px',
+            }}
+          >
             {publicacion.video_url?.trim() ? (
               <a
                 href={publicacion.video_url}
                 target="_blank"
                 rel="noreferrer"
-                className="ghostButton"
+                style={{
+                  background: '#111',
+                  color: 'white',
+                  border: '1px solid #262626',
+                  borderRadius: '14px',
+                  padding: '14px 18px',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
               >
                 Ver vídeo
               </a>
@@ -263,7 +444,17 @@ export default async function PublicacionDetallePage({
                 href={publicacion.pdf_url}
                 target="_blank"
                 rel="noreferrer"
-                className="primaryButton"
+                style={{
+                  background: 'white',
+                  color: 'black',
+                  borderRadius: '14px',
+                  padding: '14px 18px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
               >
                 Descargar PDF
               </a>
@@ -271,208 +462,6 @@ export default async function PublicacionDetallePage({
           </div>
         </article>
       </div>
-
-      <style jsx>{`
-        .page {
-          min-height: 100vh;
-          background: #050505;
-          color: white;
-        }
-
-        .wrap {
-          width: 100%;
-          max-width: 980px;
-          margin: 0 auto;
-          padding: 28px 18px 60px;
-          box-sizing: border-box;
-        }
-
-        .topActions {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-          margin-bottom: 20px;
-        }
-
-        .primaryButton {
-          background: white;
-          color: black;
-          border-radius: 14px;
-          padding: 14px 18px;
-          font-weight: 700;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .ghostButton {
-          background: #111;
-          color: white;
-          border: 1px solid #262626;
-          border-radius: 14px;
-          padding: 14px 18px;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .articleCard {
-          background: #0b0b0b;
-          border: 1px solid #171717;
-          border-radius: 28px;
-          padding: 26px;
-        }
-
-        .metaTop {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-          margin-bottom: 14px;
-        }
-
-        .badge,
-        .badgeGold {
-          border-radius: 999px;
-          padding: 6px 10px;
-          font-size: 12px;
-          border: 1px solid #262626;
-          background: #111;
-          color: white;
-          width: fit-content;
-        }
-
-        .badgeGold {
-          color: #d6c29a;
-          border-color: #3b3423;
-        }
-
-        .title {
-          margin: 0;
-          font-family: 'Times New Roman', serif;
-          font-size: clamp(42px, 6vw, 72px);
-          line-height: 0.98;
-        }
-
-        .metaLine {
-          color: #9f9f9f;
-          font-size: 14px;
-          line-height: 1.5;
-          margin-top: 16px;
-        }
-
-        .summary {
-          margin: 18px 0 0 0;
-          color: #d6c29a;
-          line-height: 1.8;
-          font-size: 18px;
-        }
-
-        .imageWrap {
-          width: 100%;
-          margin-top: 22px;
-          border-radius: 22px;
-          overflow: hidden;
-          background: #080808;
-          border: 1px solid #171717;
-        }
-
-        .image {
-          width: 100%;
-          display: block;
-          object-fit: cover;
-        }
-
-        .content {
-          margin-top: 24px;
-        }
-
-        .mdH1,
-        .mdH2,
-        .mdH3 {
-          font-family: 'Times New Roman', serif;
-          line-height: 1.08;
-          margin: 0 0 14px 0;
-        }
-
-        .mdH1 {
-          font-size: 42px;
-        }
-
-        .mdH2 {
-          font-size: 34px;
-        }
-
-        .mdH3 {
-          font-size: 28px;
-        }
-
-        .mdP {
-          margin: 0 0 16px 0;
-          color: #e0e0e0;
-          line-height: 1.9;
-          font-size: 17px;
-        }
-
-        .mdUl {
-          margin: 0 0 18px 0;
-          padding-left: 22px;
-          color: #e0e0e0;
-          line-height: 1.9;
-          font-size: 17px;
-        }
-
-        .assetButtons {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-          margin-top: 24px;
-        }
-
-        @media (max-width: 640px) {
-          .wrap {
-            padding: 18px 14px 40px;
-          }
-
-          .articleCard {
-            padding: 20px;
-            border-radius: 22px;
-          }
-
-          .topActions,
-          .assetButtons {
-            flex-direction: column;
-          }
-
-          .topActions a,
-          .assetButtons a {
-            width: 100%;
-            box-sizing: border-box;
-          }
-
-          .mdH1 {
-            font-size: 34px;
-          }
-
-          .mdH2 {
-            font-size: 28px;
-          }
-
-          .mdH3 {
-            font-size: 24px;
-          }
-
-          .mdP,
-          .mdUl {
-            font-size: 16px;
-          }
-
-          .summary {
-            font-size: 16px;
-          }
-        }
-      `}</style>
     </main>
   )
 }
