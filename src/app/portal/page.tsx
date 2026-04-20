@@ -194,13 +194,31 @@ export default function PortalPage() {
 
             <div className="uploadBox">
               <label className="primaryButton">
-                {subiendo ? 'Subiendo...' : 'Tomar foto o subir archivo'}
+                {subiendo ? 'Subiendo...' : 'Subir desde archivos'}
                 <input
                   type="file"
                   accept="image/*,video/*,audio/*,.pdf,.docx"
+                  style={{ display: 'none' }}
+                  disabled={subiendo}
+                  onChange={(e) => {
+                    subirArchivo(e.target.files?.[0] || null)
+                    e.currentTarget.value = ''
+                  }}
+                />
+              </label>
+
+              <label className="secondaryButton">
+                {subiendo ? 'Subiendo...' : 'Tomar foto con cámara'}
+                <input
+                  type="file"
+                  accept="image/*"
                   capture="environment"
                   style={{ display: 'none' }}
-                  onChange={(e) => subirArchivo(e.target.files?.[0] || null)}
+                  disabled={subiendo}
+                  onChange={(e) => {
+                    subirArchivo(e.target.files?.[0] || null)
+                    e.currentTarget.value = ''
+                  }}
                 />
               </label>
             </div>
@@ -336,12 +354,11 @@ export default function PortalPage() {
           margin-top: 18px;
         }
 
-        .primaryButton {
+        .primaryButton,
+        .secondaryButton {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          background: white;
-          color: black;
           padding: 14px 18px;
           border-radius: 14px;
           font-weight: 700;
@@ -349,6 +366,17 @@ export default function PortalPage() {
           width: fit-content;
           min-height: 50px;
           box-sizing: border-box;
+        }
+
+        .primaryButton {
+          background: white;
+          color: black;
+        }
+
+        .secondaryButton {
+          background: #111;
+          color: white;
+          border: 1px solid #262626;
         }
 
         .actions {
@@ -405,7 +433,8 @@ export default function PortalPage() {
             width: 100%;
           }
 
-          .primaryButton {
+          .primaryButton,
+          .secondaryButton {
             width: 100%;
           }
 
